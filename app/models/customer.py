@@ -4,8 +4,7 @@ from datetime import datetime, date
 
 from pydantic import Field, field_validator, EmailStr, SecretStr
 
-from .base import BaseSchema
-from .address import Address
+from app.models import BaseSchema, Address
 
 class Customer(BaseSchema):
     id: UUID

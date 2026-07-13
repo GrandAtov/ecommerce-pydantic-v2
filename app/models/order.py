@@ -3,9 +3,7 @@ from typing import Annotated, Literal
 
 from pydantic import Field, model_validator
 
-from .base import BaseSchema
-from .customer import Customer
-from .product import Product
+from app.models import BaseSchema, Customer, Product
 
 class OrderItem(BaseSchema):
     id: UUID

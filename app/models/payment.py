@@ -5,8 +5,7 @@ from datetime import datetime
 
 from pydantic import Field, model_validator
 
-from .base import BaseSchema
-from .order import Order
+from app.models import BaseSchema, Order
 
 class PaymentMethod(str, Enum):
     CREDIT_CARD = "credit_card"
@@ -31,6 +30,14 @@ class Payment(BaseSchema):
     
     @model_validator(mode="after")
     def payment_validator(self):
+        total = sum(
+            item.quantity * item.price
+            for item in self.order.items
+        )
+        
+        if total != self.amount:
+            raise ValueError("Jumlah pembayaran tidak sesuai")
+        
         if self.status == PaymentStatus.SUCCESS and self.paid_at is None:
             raise ValueError("Payment succes harus memiliki waktu pembayaran")
         return self

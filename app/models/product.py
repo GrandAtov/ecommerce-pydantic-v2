@@ -4,8 +4,7 @@ from datetime import datetime
 
 from pydantic import Field, HttpUrl
 
-from .base import BaseSchema
-from .category import Category
+from app.models import BaseSchema, Category
 
 class Product(BaseSchema):
     id: UUID
