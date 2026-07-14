@@ -4,7 +4,7 @@ from typing import Annotated
 
 from pydantic import Field
 
-from app.models import BaseSchema
+from .base import BaseSchema
 
 class Category(BaseSchema):
     id: UUID

@@ -3,7 +3,7 @@ from typing import Annotated
 
 from pydantic import Field, field_validator
 
-from app.models import BaseSchema
+from .base import BaseSchema
 
 class Address(BaseSchema):
     id: UUID
