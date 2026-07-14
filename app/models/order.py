@@ -1,9 +1,10 @@
 from uuid import UUID
 from math import isclose
-from typing import Annotated, Literal
+from typing import Literal
 
-from pydantic import Field, model_validator
+from pydantic import model_validator
 
+from types.common import PositiveQuantity, OrderPrice, TotalPrice
 from .base import BaseSchema
 from .customer import Customer
 from .product import Product
@@ -11,8 +12,8 @@ from .product import Product
 class OrderItem(BaseSchema):
     id: UUID
     product: Product
-    quantity: Annotated[int, Field(gt=0)]
-    price: Annotated[float, Field(gt=0, strict=True)]
+    quantity: PositiveQuantity
+    price: OrderPrice
     
     @model_validator(mode="after")
     def price_validator(self):
@@ -30,7 +31,7 @@ class Order(BaseSchema):
     id: UUID
     customer: Customer
     items: list[OrderItem]
-    total_price: float
+    total_price: TotalPrice
     status: Literal[
         "pending",
         "paid",

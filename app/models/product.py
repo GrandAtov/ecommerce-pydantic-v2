@@ -4,6 +4,7 @@ from datetime import datetime
 
 from pydantic import Field, HttpUrl, model_validator
 
+from types.common import PositivePrice, PositiveStock
 from .base import BaseSchema
 from .category import Category
 
@@ -18,13 +19,13 @@ class Product(BaseSchema):
         min_length=10,
         max_length=500
     )]
-    sku: Optional[str] = None
-    price: Annotated[float, Field(gt=0)]
+    sku: Optional[str] = Field(default=None, pattern=r"^PROD-[A-Z]+-[A-Z]+-[A-Z]+$")
+    price: PositivePrice
     discount: Annotated[float, Field(
         ge=0,
         le=100
     )]
-    stock: Annotated[int, Field(ge=0)]
+    stock: PositiveStock
     image_url: HttpUrl
     category: Category
     created_at: datetime

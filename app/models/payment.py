@@ -6,6 +6,7 @@ from datetime import datetime
 
 from pydantic import Field, model_validator
 
+from types.common import PaymentAmount
 from .base import BaseSchema
 from .order import Order
 
@@ -26,7 +27,7 @@ class Payment(BaseSchema):
     order: Order
     method: PaymentMethod
     status: PaymentStatus
-    amount: Annotated[float, Field(gt=0)]
+    amount: PaymentAmount
     paid_at: Optional[datetime] = None
     created_at: datetime
     
