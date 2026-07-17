@@ -1,8 +1,8 @@
 from uuid import UUID
 from math import isclose
-from typing import Literal
+from typing import Literal, Annotated
 
-from pydantic import model_validator
+from pydantic import model_validator, Field
 
 from types.common import PositiveQuantity, OrderPrice, TotalPrice
 from .base import BaseSchema
@@ -38,7 +38,7 @@ class Order(BaseSchema):
         "shipped",
         "completed",
         "cancelled"
-    ]
+    ] = "pending"
     
     @model_validator(mode="after")
     def order_validator(self):
