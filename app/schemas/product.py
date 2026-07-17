@@ -4,7 +4,7 @@ from datetime import datetime
 
 from pydantic import Field, HttpUrl, model_validator
 
-from types.common import PositivePrice, PositiveStock
+from app.types.common import PositivePrice, PositiveStock
 from .base import BaseSchema
 
 
