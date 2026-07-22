@@ -1,6 +1,7 @@
 from datetime import datetime
 from uuid import UUID, uuid4
 
+from sqlalchemy import String, Text, Boolean
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import func
 
@@ -15,16 +16,20 @@ class Category(Base):
     )
     
     name: Mapped[str] = mapped_column(
+        String(100),
         unique=True,
         nullable=False,
         index=True
     )
     
     description: Mapped[str] = mapped_column(
+        Text,
         nullable=False
     )
     
-    is_active: Mapped[bool] = mapped_column(default=True)
+    is_active: Mapped[bool] = mapped_column(
+        Boolean,
+        default=True)
     
     created_at: Mapped[datetime] = mapped_column(
         server_default=func.now()        
