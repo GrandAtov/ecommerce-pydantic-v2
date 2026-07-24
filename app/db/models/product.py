@@ -63,6 +63,23 @@ class Product(Base):
         nullable=False,
         index=True
     )
+    
     created_at: Mapped[datetime] = mapped_column(
         server_default=func.now()
     )
+    
+    def __repr__(self) -> str:
+        return(
+            "Product("
+            f"id={self.id}, "
+            f"name='{self.name}', "
+            f"brand='{self.brand}', "
+            f"description='{self.description}', "
+            f"sku='{self.sku}', "
+            f"price={self.price}, "
+            f"discount={self.discount}, "
+            f"stock={self.stock}, "
+            f"image_url='{self.image_url}', "
+            f"category_id={self.category_id}, "
+            f"created_at={self.created_at})"  
+        )
