@@ -1,10 +1,17 @@
+from __future__ import annotations
+
 from uuid import UUID, uuid4
 from datetime import datetime, date
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .order import Order
+    from .address import Address
 
 from app.db.base import Base
 
-from sqlalchemy import String, Boolean, ForeignKey, Date
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, Boolean, Date
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 
 
@@ -41,16 +48,9 @@ class Customer(Base):
         unique=True
     )
     
-    
     birth_date: Mapped[date] = mapped_column(
         Date,
         nullable=False
-    )
-    
-    address_id: Mapped[UUID] = mapped_column(
-        ForeignKey("addresses.id"),
-        nullable=False,
-        index=True
     )
     
     registration_date: Mapped[datetime] = mapped_column(
@@ -64,3 +64,28 @@ class Customer(Base):
         default=True,
         index=True
     )
+    
+    orders: Mapped[list["Order"]] = relationship(
+        "Order",
+        back_populates="customer",
+        cascade="all, delete-orphan"
+    )
+    
+    addresses: Mapped[list["Address"]] = relationship(
+        "Address",
+        back_populates="customer",
+        cascade="all, delete-orphan",
+        lazy="selectin"
+    )
+    
+    def __repr__(self) -> str:
+        return (
+            "Customer("
+            f"id={self.id}, "
+            f"name='{self.name}', "
+            f"email='{self.email}', "
+            f"phone='{self.phone}', "
+            f"birth_date={self.birth_date}, "
+            f"registration_date={self.registration_date}, "
+            f"is_active={self.is_active})"
+        )

@@ -1,8 +1,14 @@
+from __future__ import annotations
+
 from datetime import datetime
 from uuid import UUID, uuid4
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .product import Product
 
 from sqlalchemy import String, Text, Boolean
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 
 from app.db.base import Base
@@ -33,6 +39,11 @@ class Category(Base):
     
     created_at: Mapped[datetime] = mapped_column(
         server_default=func.now()        
+    )
+    
+    products: Mapped[list["Product"]] = relationship(
+        "Product",
+        back_populates="category"
     )
     
     def __repr__(self) -> str:

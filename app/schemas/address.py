@@ -6,6 +6,7 @@ from pydantic import Field, field_validator
 from .base import BaseSchema
 
 class AddressCreate(BaseSchema):
+    name: Annotated[str, Field(min_length=3)]
     street: Annotated[str, Field(min_length=5)]
     city: Annotated[str, Field(min_length=3)]
     province: Annotated[str, Field(min_length=3)]
@@ -22,6 +23,7 @@ class AddressCreate(BaseSchema):
         return value
 
 class AddressUpdate(BaseSchema):
+    name: Optional[Annotated[str, Field(min_length=3)]]
     street: Optional[Annotated[str, Field(min_length=5)]] = None
     city: Optional[Annotated[str, Field(min_length=3)]] = None
     province: Optional[Annotated[str, Field(min_length=3)]] = None
@@ -33,7 +35,7 @@ class AddressUpdate(BaseSchema):
     
     @field_validator("postal_code")
     def postal_code_validator(cls, value: str):
-        if value == None:
+        if value is None:
             return value
         
         if len(value) != 5 or not value.isdigit():
@@ -42,6 +44,7 @@ class AddressUpdate(BaseSchema):
     
 class AddressResponse(BaseSchema):
     id: UUID
+    name: str
     street: str
     city: str
     province: str

@@ -1,11 +1,16 @@
+from __future__ import annotations
+
 from uuid import UUID, uuid4
 from enum import Enum
 from datetime import datetime
 from decimal import Decimal
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .order import Order
 
 from sqlalchemy import Enum as SQLEnum, Numeric, ForeignKey, func
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
 
@@ -31,6 +36,7 @@ class Payment(Base):
     
     order_id: Mapped[UUID] = mapped_column(
         ForeignKey("orders.id"),
+        unique=True,
         nullable=False,
         index=True
     )
@@ -58,6 +64,12 @@ class Payment(Base):
     created_at: Mapped[datetime] = mapped_column(
         server_default=func.now(),
         nullable=False
+    )
+    
+    order: Mapped["Order"] = relationship(
+        "Order",
+        back_populates="payment",
+        lazy="selectin"
     )
     
     def __repr__(self) -> str:

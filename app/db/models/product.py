@@ -1,9 +1,14 @@
 from uuid import UUID, uuid4
 from datetime import datetime
 from decimal import Decimal
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .category import Category
+    from . order_item import OrderItem
 
 from sqlalchemy import ForeignKey, Numeric, String, Text
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 
 from app.db.base import Base
@@ -66,6 +71,18 @@ class Product(Base):
     
     created_at: Mapped[datetime] = mapped_column(
         server_default=func.now()
+    )
+    
+    category: Mapped["Category"] = relationship(
+        "Category",
+        back_populates="products",
+        lazy="selectin"
+    )
+    
+    order_items: Mapped[list["OrderItem"]] = relationship(
+        "OrderItem",
+        back_populates="product",
+        lazy="selectin"
     )
     
     def __repr__(self) -> str:

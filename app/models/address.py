@@ -7,6 +7,7 @@ from .base import BaseSchema
 
 class Address(BaseSchema):
     id: UUID
+    name: Annotated[str, Field(min_length=3)]
     street: Annotated[str, Field(min_length=5)]
     city: Annotated[str, Field(min_length=3)]
     province: Annotated[str, Field(min_length=3)]

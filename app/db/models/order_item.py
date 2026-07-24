@@ -1,8 +1,15 @@
+from __future__ import annotations
+
 from uuid import UUID, uuid4
 from decimal import Decimal
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .order import Order
+    from .product import Product
 
 from sqlalchemy import Numeric, ForeignKey, Integer
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
 
@@ -35,6 +42,17 @@ class OrderItem(Base):
     price: Mapped[Decimal] = mapped_column(
         Numeric(10, 2),
         nullable=False
+    )
+    
+    order: Mapped["Order"] = relationship(
+        "Order",
+        back_populates="order_items"
+    )
+    
+    product: Mapped["Product"] = relationship(
+        "Product",
+        back_populates="order_items",
+        lazy="selectin"
     )
     
     def __repr__(self) -> str:
