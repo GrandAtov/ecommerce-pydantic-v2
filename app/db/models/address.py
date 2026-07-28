@@ -62,7 +62,7 @@ class Address(Base):
     customer: Mapped["Customer"] = relationship(
         "Customer",
         back_populates="addresses",
-        lazy="selectin"
+        lazy="joined"
     ) 
     
     def __repr__(self) -> str:

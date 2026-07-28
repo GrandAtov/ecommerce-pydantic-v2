@@ -46,13 +46,14 @@ class OrderItem(Base):
     
     order: Mapped["Order"] = relationship(
         "Order",
-        back_populates="order_items"
+        back_populates="order_items",
+        lazy="joined"
     )
     
     product: Mapped["Product"] = relationship(
         "Product",
         back_populates="order_items",
-        lazy="selectin"
+        lazy="joined"
     )
     
     def __repr__(self) -> str:

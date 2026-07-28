@@ -69,7 +69,7 @@ class Payment(Base):
     order: Mapped["Order"] = relationship(
         "Order",
         back_populates="payment",
-        lazy="selectin"
+        lazy="joined"
     )
     
     def __repr__(self) -> str:

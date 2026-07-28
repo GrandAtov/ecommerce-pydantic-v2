@@ -59,7 +59,7 @@ class Order(Base):
     customer: Mapped["Customer"] = relationship(
         "Customer",
         back_populates="orders",
-        lazy="selectin"
+        lazy="joined"
     )
     
     order_items: Mapped[list["OrderItem"]] = relationship(
@@ -74,7 +74,7 @@ class Order(Base):
         back_populates="order",
         uselist=False,
         cascade="all, delete-orphan",
-        lazy="selectin"
+        lazy="joined"
     )
     
     def __repr__(self) -> str:

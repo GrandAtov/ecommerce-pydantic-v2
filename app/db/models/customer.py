@@ -68,7 +68,8 @@ class Customer(Base):
     orders: Mapped[list["Order"]] = relationship(
         "Order",
         back_populates="customer",
-        cascade="all, delete-orphan"
+        cascade="all, delete-orphan",
+        lazy="selectin"
     )
     
     addresses: Mapped[list["Address"]] = relationship(

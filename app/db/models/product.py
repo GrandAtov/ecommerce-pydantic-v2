@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from uuid import UUID, uuid4
 from datetime import datetime
 from decimal import Decimal
@@ -50,7 +52,7 @@ class Product(Base):
     
     discount: Mapped[Decimal] = mapped_column(
         Numeric(5,2),
-        default=0
+        default=Decimal("0.00")
     )
     
     stock: Mapped[int] = mapped_column(
@@ -76,7 +78,7 @@ class Product(Base):
     category: Mapped["Category"] = relationship(
         "Category",
         back_populates="products",
-        lazy="selectin"
+        lazy="joined"
     )
     
     order_items: Mapped[list["OrderItem"]] = relationship(

@@ -35,7 +35,8 @@ class Category(Base):
     
     is_active: Mapped[bool] = mapped_column(
         Boolean,
-        default=True)
+        default=True
+    )
     
     created_at: Mapped[datetime] = mapped_column(
         server_default=func.now()        
@@ -43,7 +44,8 @@ class Category(Base):
     
     products: Mapped[list["Product"]] = relationship(
         "Product",
-        back_populates="category"
+        back_populates="category",
+        lazy="selectin"
     )
     
     def __repr__(self) -> str:
