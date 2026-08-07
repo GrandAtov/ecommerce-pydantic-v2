@@ -6,7 +6,7 @@ from app.repositories.product_repository import ProductRepository
 from app.repositories.category_repository import CategoryRepository
 
 from app.db.models.product import Product
-
+ 
 from app.schemas.product import (
     ProductCreate,
     ProductUpdate
